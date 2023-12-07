@@ -66,14 +66,40 @@ class PlaylistsController extends AbstractController {
             case "name":
                 $playlists = $this->playlistRepository->findAllOrderByName($ordre);
                 break;
+            default:
+                    echo 'le champ ne contient pas de nom';
         }
+        
         $categories = $this->categorieRepository->findAll();
         return $this->render("pages/playlists.html.twig", [
             'playlists' => $playlists,
             'categories' => $categories            
         ]);
-    }          
-	
+    }     
+    /**
+     * @Route("/playlists/trier/{champ}/{ordre}", name="playlists.count")
+     * @param type $champ
+     * @param type $ordre
+     * @return Response
+     */
+    public function count($champ, $ordre): Response{
+        switch($champ){
+            case "nb_formation":
+                $playlists = $this->playlistRepository->findAllOrderByNumber($ordre);
+                break;
+            default:
+                    echo 'le champ ne contient pas de vidéo';
+        }
+        $categories = $this->categorieRepository->findAll();
+        return $this->render("pages/playlists.html.twig", [
+            'playlists' => $playlists,
+            'categories' => $categories 
+        ]);
+        
+        
+        
+      
+    }     
     /**
      * @Route("/playlists/recherche/{champ}/{table}", name="playlists.findallcontain")
      * @param type $champ

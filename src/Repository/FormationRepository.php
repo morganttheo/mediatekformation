@@ -118,5 +118,14 @@ class FormationRepository extends ServiceEntityRepository
                 ->getQuery()
                 ->getResult();        
     }
+     /*public function countByPlaylist(Playlist $playlist): int
+    {
+        return $this->createQueryBuilder('f')
+            ->select('COUNT(f.id)')
+            ->where('f.playlist = :playlist')
+            ->setParameter('playlist', $playlist)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }*/
     
 }

@@ -38,6 +38,21 @@ class PlaylistRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    /*public function updateNombreFormationsForPlaylists(): void
+    {
+        $playlists = $this->findAll();
+
+        foreach ($playlists as $playlist) {
+            $formationsCount = $this->getEntityManager()
+                ->getRepository(Formation::class)
+                ->countByPlaylist($playlist); // Supposons que vous ayez une méthode countByPlaylist() dans votre FormationRepository
+
+            $playlist->setNombreDeFormations($formationsCount);
+            $this->getEntityManager()->persist($playlist);
+        }
+
+        $this->getEntityManager()->flush();
+    }*/
     
     /**
      * Retourne toutes les playlists triées sur le nom de la playlist
@@ -53,6 +68,22 @@ class PlaylistRepository extends ServiceEntityRepository
                 ->getQuery()
                 ->getResult();       
     } 
+    
+     /**
+     * Retourne toutes les playlists triées sur le nombre de formation
+     * @param type $champ
+     * @param type $ordre
+     * @return Playlist[]
+     */
+    public function findAllOrderByNumber($ordre): array{
+        return $this->createQueryBuilder('p')
+                ->leftjoin('p.formations', 'f')
+                ->groupBy('p.id')
+                ->orderBy('p.nb_formation', $ordre)
+                ->getQuery()
+                ->getResult();       
+    } 
+	
 	
     /**
      * Enregistrements dont un champ contient une valeur

@@ -28,6 +28,19 @@ class Playlist
      * @ORM\Column(type="text", nullable=true)
      */
     private $description;
+    
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $nb_formation;
+    
+    
+    
+    /**
+     * 
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    /*private $nbFormation;*/
 
     /**
      * @ORM\OneToMany(targetEntity=Formation::class, mappedBy="playlist")
@@ -67,14 +80,28 @@ class Playlist
 
         return $this;
     }
+    
+    public function getnb_formation(): ?int
+    {
+        return $this->nb_formation;
+    }
+
+    public function setnb_formation(?int $nb_formation): self
+    {
+        $this->nb_formation = $nb_formation;
+
+        return $this;
+    }
 
     /**
      * @return Collection<int, Formation>
      */
     public function getFormations(): Collection
-    {
+    {   
         return $this->formations;
-    }
+    }   
+    
+   
 
     public function addFormation(Formation $formation): self
     {
@@ -97,21 +124,21 @@ class Playlist
 
         return $this;
     }
-
-	/**
-	 * @return Collection<int, string>
-	 */	
-	public function getCategoriesPlaylist() : Collection
-	{
-		$categories = new ArrayCollection();
-		foreach($this->formations as $formation){
-			$categoriesFormation = $formation->getCategories();
-			foreach($categoriesFormation as $categorieFormation)
-			if(!$categories->contains($categorieFormation->getName())){
-				$categories[] = $categorieFormation->getName();
-			}
-		}
-		return $categories;
+    /**
+    * @return Collection<int, string>
+    */	
+    public function getCategoriesPlaylist() : Collection
+    {
+	$categories = new ArrayCollection();
+	foreach($this->formations as $formation){
+            $categoriesFormation = $formation->getCategories();
+                foreach($categoriesFormation as $categorieFormation){
+                    if(!$categories->contains($categorieFormation->getName())){
+                        $categories[] = $categorieFormation->getName();
+                    }
+                }
+                                 
+            return $categories;
 	}
-	
+    }
 }
