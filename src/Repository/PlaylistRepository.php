@@ -38,7 +38,7 @@ class PlaylistRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-    /*public function updateNombreFormationsForPlaylists(): void
+    public function updateNombreFormationsForPlaylists(): void
     {
         $playlists = $this->findAll();
 
@@ -52,7 +52,7 @@ class PlaylistRepository extends ServiceEntityRepository
         }
 
         $this->getEntityManager()->flush();
-    }*/
+    }
     
     /**
      * Retourne toutes les playlists triées sur le nom de la playlist

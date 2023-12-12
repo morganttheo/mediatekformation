@@ -1,0 +1,19 @@
+{% block body %}
+    {{ form_start(formFormation) }}
+        <div class="row">
+            <div class="col">
+                <div class="row">
+                    <div class="col-auto">
+                        {{ form_row(formFormation.publishedAt) }}
+                    </div>
+                    <div class="col">
+                        {{ form_row(formFormation.title) }}
+                    </div>
+                </div>
+                {{ form_row(formFormation.description) }}
+                {{ form_row(formFormation.videoId) }}
+            </div>
+        </div>
+    {{ form_end(formFormation) }}
+{% endblock %}
+

@@ -32,10 +32,20 @@ class FormationRepository extends ServiceEntityRepository
 
     public function remove(Formation $entity, bool $flush = false): void
     {
+        $playlist = $entity->getPlaylist();
         $this->getEntityManager()->remove($entity);
+
+        if ($playlist !== null) {
+            $nbFormation = $playlist->getnb_Formation();
+            if ($nbFormation > 0) {
+                $playlist->setnb_Formation($nbFormation - 1);
+                
+            }
+        }
 
         if ($flush) {
             $this->getEntityManager()->flush();
+            
         }
     }
 
@@ -118,14 +128,4 @@ class FormationRepository extends ServiceEntityRepository
                 ->getQuery()
                 ->getResult();        
     }
-     /*public function countByPlaylist(Playlist $playlist): int
-    {
-        return $this->createQueryBuilder('f')
-            ->select('COUNT(f.id)')
-            ->where('f.playlist = :playlist')
-            ->setParameter('playlist', $playlist)
-            ->getQuery()
-            ->getSingleScalarResult();
-    }*/
-    
 }
