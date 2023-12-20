@@ -124,21 +124,25 @@ class Playlist
 
         return $this;
     }
-    /**
+   /**
     * @return Collection<int, string>
     */	
-    public function getCategoriesPlaylist() : Collection
+    public function getCategoriesPlaylist() : Collection 
     {
 	$categories = new ArrayCollection();
 	foreach($this->formations as $formation){
             $categoriesFormation = $formation->getCategories();
-                foreach($categoriesFormation as $categorieFormation){
-                    if(!$categories->contains($categorieFormation->getName())){
-                        $categories[] = $categorieFormation->getName();
-                    }
-                }
-                                 
-            return $categories;
-	}
+            foreach($categoriesFormation as $categorieFormation){
+                if(!$categories->contains($categorieFormation->getName())){
+                    $categories[] = $categorieFormation->getName();
+		}
+            }
+        }
+        // Si aucune formation, retourner une collection vide
+        if ($categories->isEmpty()) {
+            return new ArrayCollection();
+        }
+	return $categories;
+	
     }
 }

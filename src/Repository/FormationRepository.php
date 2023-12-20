@@ -23,8 +23,11 @@ class FormationRepository extends ServiceEntityRepository
 
     public function add(Formation $entity, bool $flush = false): void
     {
+        $playlist = $entity->getPlaylist();
         $this->getEntityManager()->persist($entity);
-
+        $nbFormation = $playlist->getnb_Formation();
+        $playlist->setnb_Formation($nbFormation + 1);
+                
         if ($flush) {
             $this->getEntityManager()->flush();
         }

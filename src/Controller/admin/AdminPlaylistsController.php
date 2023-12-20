@@ -1,6 +1,8 @@
 <?php
 namespace App\Controller\admin;
 
+use App\Entity\Playlist;
+use App\Form\PlaylistType;
 use App\Repository\CategorieRepository;
 use App\Repository\FormationRepository;
 use App\Repository\PlaylistRepository;
@@ -43,7 +45,7 @@ class AdminPlaylistsController extends AbstractController {
     }
     
     /**
-     * @Route("/admin", name="admin.playlists")
+     * @Route("/admin.playlists", name="admin.playlists")
      * @return Response
      */
     public function index(): Response{
@@ -133,6 +135,63 @@ class AdminPlaylistsController extends AbstractController {
             'playlistcategories' => $playlistCategories,
             'playlistformations' => $playlistFormations
         ]);        
-    }       
+    }  
+    
+    /**
+     * @Route("/admin/playlist/suppr/{id}", name="admin.playlists.suppr")
+     * @param playlist $playlist
+     * @return Response
+     */
+    public function suppr(Playlist $playlist): Response{
+        switch($playlist->getnb_formation()){
+            case "0":
+                $this->playlistRepository->remove($playlist, true);
+                return $this->redirectToRoute('admin.playlists');
+                break;
+            default:
+                    echo 'supprimez les formations avant de pouvoir supprimer la playlist';
+        }
+
+    }
+    
+    /**
+     * @Route("/admin/playlist/ajout", name="admin.playlists.ajout")
+     * @param Request $request
+     * @return Response
+     */
+    public function ajout(Request $request): Response{
+        $playlist = new Playlist();
+        $formPlaylist = $this->createForm(PlaylistType::class, $playlist);
+        $formPlaylist->handleRequest($request);
+        if($formPlaylist->isSubmitted() && $formPlaylist->isValid()){
+            $this->playlistRepository->add($playlist, true);
+            return $this->redirectToRoute('admin.playlists');
+        }   
+        return $this->render("admin/admin.playlist.ajout.html.twig", [
+            'playlist' => $playlist,
+            'formPlaylist' =>$formPlaylist->createView()
+        ]);       
+    }
+    
+    /**
+     * @Route("/admin/playlist/edit/{id}", name="admin.playlists.edit")
+     * @param Playlist $playlist
+     * @param Request $request
+     * @return Response
+     */
+    public function edit(Playlist $playlist, Request $request): Response{
+        $formPlaylist = $this->createForm(PlaylistType::class, $playlist);
+        $playlistFormations = $this->formationRepository->findAllForOnePlaylist($playlist);
+        $formPlaylist->handleRequest($request);
+        if($formPlaylist->isSubmitted() && $formPlaylist->isValid()){
+            $this->playlistRepository->add($playlist, true);
+            return $this->redirectToRoute('admin.playlists');
+        }   
+        return $this->render("admin/admin.playlist.edit.html.twig", [
+            'playlist' => $playlist,
+            'formPlaylist' =>$formPlaylist->createView(),
+            'playlistformations' => $playlistFormations
+        ]);       
+    }
     
 }
