@@ -16,16 +16,7 @@ class CategorieType extends AbstractType
     {
         $builder
                 
-            ->add('name',[
-                'label' => 'Nom de la catégorie',
-                'constraints' => [
-                    new Unique([
-                        'entityClass' => Category::class,
-                        'field' => 'name',
-                        'message' => 'Ce nom de catégorie existe déjà.'
-                    ])
-                ]
-            ])
+            ->add('name')
             ->add('submit', SubmitType::class)
         ;
     }
