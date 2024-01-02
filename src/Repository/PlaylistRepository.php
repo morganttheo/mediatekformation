@@ -29,7 +29,12 @@ class PlaylistRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-
+    /**
+     * 
+     * @param Playlist $entity
+     * @param bool $flush
+     * @return void
+     */
     public function remove(Playlist $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
@@ -38,6 +43,10 @@ class PlaylistRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    /**
+     * 
+     * @return void
+     */
     public function updateNombreFormationsForPlaylists(): void
     {
         $playlists = $this->findAll();

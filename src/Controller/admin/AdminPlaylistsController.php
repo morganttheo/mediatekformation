@@ -45,7 +45,7 @@ class AdminPlaylistsController extends AbstractController {
     }
     
     /**
-     * @Route("/admin.playlists", name="admin.playlists")
+     * @Route("/admin", name="admin")
      * @return Response
      */
     public function index(): Response{
@@ -58,7 +58,7 @@ class AdminPlaylistsController extends AbstractController {
     }
 
     /**
-     * @Route("/admin.playlists/tri/{champ}/{ordre}", name="admin.playlists.sort")
+     * @Route("/admin/tri/{champ}/{ordre}", name="admin.sort")
      * @param type $champ
      * @param type $ordre
      * @return Response
@@ -79,7 +79,7 @@ class AdminPlaylistsController extends AbstractController {
         ]);
     }     
     /**
-     * @Route("/admin.playlists/trier/{champ}/{ordre}", name="admin.playlists.count")
+     * @Route("/admin/trier/{champ}/{ordre}", name="admin.count")
      * @param type $champ
      * @param type $ordre
      * @return Response
@@ -103,7 +103,7 @@ class AdminPlaylistsController extends AbstractController {
       
     }     
     /**
-     * @Route("/admin.playlists/recherche/{champ}/{table}", name="admin.playlists.findallcontain")
+     * @Route("/admin/recherche/{champ}/{table}", name="admin.findallcontain")
      * @param type $champ
      * @param Request $request
      * @param type $table
@@ -122,7 +122,7 @@ class AdminPlaylistsController extends AbstractController {
     }  
     
     /**
-     * @Route("/admin.playlists/playlist/{id}", name="admin.playlists.showone")
+     * @Route("/admin/playlist/{id}", name="admin.showone")
      * @param type $id
      * @return Response
      */
@@ -138,24 +138,28 @@ class AdminPlaylistsController extends AbstractController {
     }  
     
     /**
-     * @Route("/admin/playlist/suppr/{id}", name="admin.playlists.suppr")
+     * @Route("/admin/suppr/{id}", name="admin.suppr")
      * @param playlist $playlist
      * @return Response
      */
     public function suppr(Playlist $playlist): Response{
+                   
+        if ($playlist === null) {
+           return $this->redirectToRoute('admin');
+        }
         switch($playlist->getnb_formation()){
             case "0":
                 $this->playlistRepository->remove($playlist, true);
-                return $this->redirectToRoute('admin.playlists');
+                return $this->redirectToRoute('admin');
                 break;
             default:
-                    echo 'supprimez les formations avant de pouvoir supprimer la playlist';
+                return new Response('supprimez les formations avant de pouvoir supprimer la playlist');
         }
 
     }
     
     /**
-     * @Route("/admin/playlist/ajout", name="admin.playlists.ajout")
+     * @Route("/admin/ajout", name="admin.ajout")
      * @param Request $request
      * @return Response
      */
@@ -165,7 +169,7 @@ class AdminPlaylistsController extends AbstractController {
         $formPlaylist->handleRequest($request);
         if($formPlaylist->isSubmitted() && $formPlaylist->isValid()){
             $this->playlistRepository->add($playlist, true);
-            return $this->redirectToRoute('admin.playlists');
+            return $this->redirectToRoute('admin');
         }   
         return $this->render("admin/admin.playlist.ajout.html.twig", [
             'playlist' => $playlist,
@@ -174,7 +178,7 @@ class AdminPlaylistsController extends AbstractController {
     }
     
     /**
-     * @Route("/admin/playlist/edit/{id}", name="admin.playlists.edit")
+     * @Route("/admin/edit/{id}", name="admin.edit")
      * @param Playlist $playlist
      * @param Request $request
      * @return Response
@@ -185,7 +189,7 @@ class AdminPlaylistsController extends AbstractController {
         $formPlaylist->handleRequest($request);
         if($formPlaylist->isSubmitted() && $formPlaylist->isValid()){
             $this->playlistRepository->add($playlist, true);
-            return $this->redirectToRoute('admin.playlists');
+            return $this->redirectToRoute('admin');
         }   
         return $this->render("admin/admin.playlist.edit.html.twig", [
             'playlist' => $playlist,

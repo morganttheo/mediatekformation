@@ -20,7 +20,12 @@ class FormationRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Formation::class);
     }
-
+    /**
+     * 
+     * @param Formation $entity
+     * @param bool $flush
+     * @return void
+     */
     public function add(Formation $entity, bool $flush = false): void
     {
         $playlist = $entity->getPlaylist();
@@ -32,7 +37,12 @@ class FormationRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-
+    /**
+     * 
+     * @param Formation $entity
+     * @param bool $flush
+     * @return void
+     */
     public function remove(Formation $entity, bool $flush = false): void
     {
         $playlist = $entity->getPlaylist();

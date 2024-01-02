@@ -34,6 +34,12 @@ class PlaylistsController extends AbstractController {
      */
     private $categorieRepository;    
     
+    /**
+     * 
+     * @param PlaylistRepository $playlistRepository
+     * @param CategorieRepository $categorieRepository
+     * @param FormationRepository $formationRespository
+     */
     function __construct(PlaylistRepository $playlistRepository, 
             CategorieRepository $categorieRepository,
             FormationRepository $formationRespository) {

@@ -33,7 +33,11 @@ class KeycloakAuthenticator extends OAuth2Authenticator implements Authenticatio
         $this->entityManager = $entityManager;
         $this->router = $router;        
     }
-    
+    /**
+     * 
+     * @param Request $request
+     * @return Passport
+     */
     public function authenticate(Request $request): Passport {
         $client = $this->clientRegistry->getClient('keycloak');
         $accessToken = $this->fetchAccessToken($client);
@@ -73,26 +77,46 @@ class KeycloakAuthenticator extends OAuth2Authenticator implements Authenticatio
         );
 
     }
-
+    /**
+     * 
+     * @param Request $request
+     * @param AuthenticationException $exception
+     * @return Response|null
+     */
     public function onAuthenticationFailure(Request $request, 
             AuthenticationException $exception): ?Response {
         $message = strtr($exception->getMessageKey(), $exception->getMessageData());
         return new Response($message, Response::HTTP_FORBIDDEN);
     }
-
+    /**
+     * 
+     * @param Request $request
+     * @param TokenInterface $token
+     * @param string $firewallName
+     * @return Response|null
+     */
     public function onAuthenticationSuccess(Request $request, 
             TokenInterface $token, string $firewallName): ?Response {
-        $targetUrl = $this->router->generate('admin.playlists');
+        $targetUrl = $this->router->generate('admin');
         return new RedirectResponse($targetUrl);
     }
-
+    /**
+     * 
+     * @param Request $request
+     * @param AuthenticationException $authException
+     * @return Response
+     */
     public function start(Request $request, AuthenticationException $authException = null): Response {
         return new RedirectResponse(
                 '/oauth/login',
                 Response::HTTP_TEMPORARY_REDIRECT
         );
     }
-
+    /**
+     * 
+     * @param Request $request
+     * @return bool|null
+     */
     public function supports(Request $request): ?bool {
         return $request->attributes->get('_route') === 'oauth_check';
     }

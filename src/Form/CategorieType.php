@@ -20,7 +20,11 @@ class CategorieType extends AbstractType
             ->add('submit', SubmitType::class)
         ;
     }
-
+    /**
+     * 
+     * @param OptionsResolver $resolver
+     * @return void
+     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

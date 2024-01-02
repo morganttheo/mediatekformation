@@ -27,9 +27,7 @@ class FormationType extends AbstractType
                 'required' =>true,
                
                 'data' => $defaultDate,
-                'constraints' => [
-                    new LessThanOrEqual('today'),   
-                ],
+                
             ])
             ->add('title', null,[
                 

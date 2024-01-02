@@ -35,7 +35,7 @@ class AdminFormationsController extends AbstractController {
     }
     
     /**
-     * @Route("/admin.formations", name="admin.formations")
+     * @Route("/admin/formations", name="admin.formations")
      * @return Response
      */
     public function index(): Response{
@@ -48,7 +48,7 @@ class AdminFormationsController extends AbstractController {
     }
 
     /**
-     * @Route("/admin.formations/tri/{champ}/{ordre}/{table}", name="admin.formations.sort")
+     * @Route("/admin/formations/tri/{champ}/{ordre}/{table}", name="admin.formations.sort")
      * @param type $champ
      * @param type $ordre
      * @param type $table
@@ -64,7 +64,7 @@ class AdminFormationsController extends AbstractController {
     }     
     
     /**
-     * @Route("/admin.formations/recherche/{champ}/{table}", name="admin.formations.findallcontain")
+     * @Route("/admin/formations/recherche/{champ}/{table}", name="admin.formations.findallcontain")
      * @param type $champ
      * @param Request $request
      * @param type $table
@@ -83,7 +83,7 @@ class AdminFormationsController extends AbstractController {
     }  
     
     /**
-     * @Route("/admin.formations/formation/{id}", name="admin.formations.showone")
+     * @Route("/admin/formations/formation/{id}", name="admin.formations.showone")
      * @param type $id
      * @return Response
      */
@@ -94,7 +94,7 @@ class AdminFormationsController extends AbstractController {
         ]);        
     }   
     /**
-     * @Route("/admin/suppr/{id}", name="admin.formations.suppr")
+     * @Route("/admin/formations/suppr/{id}", name="admin.formations.suppr")
      * @param formation $formation
      * @return Response
      */
@@ -104,7 +104,7 @@ class AdminFormationsController extends AbstractController {
     }
     
     /**
-     * @Route("/admin/edit/{id}", name="admin.formations.edit")
+     * @Route("/admin/formations/edit/{id}", name="admin.formations.edit")
      * @param formation $formation
      * @param Request $request
      * @return Response
@@ -122,7 +122,7 @@ class AdminFormationsController extends AbstractController {
         ]);       
     }
     /**
-     * @Route("/admin/ajout", name="admin.formations.ajout")
+     * @Route("/admin/formations/ajout", name="admin.formations.ajout")
      * @param Request $request
      * @return Response
      */

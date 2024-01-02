@@ -86,7 +86,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return array_unique($roles);
     }
-
+    /**
+     * 
+     * @param array $roles
+     * @return self
+     */
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
@@ -128,12 +132,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
-
+    /**
+     * 
+     * @return string|null
+     */
     public function getKeycloakId(): ?string
     {
         return $this->keycloakId;
     }
-
+    /**
+     * 
+     * @param string|null $keycloakId
+     * @return self
+     */
     public function setKeycloakId(?string $keycloakId): self
     {
         $this->keycloakId = $keycloakId;

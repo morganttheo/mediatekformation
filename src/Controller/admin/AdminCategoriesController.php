@@ -31,7 +31,7 @@ class AdminCategoriesController extends AbstractController {
     }
     
     /**
-     * @Route("/admin.categories", name="admin.categories")
+     * @Route("/admin/categories", name="admin.categories")
      * @return Response
      */
     public function index(Request $request): Response{

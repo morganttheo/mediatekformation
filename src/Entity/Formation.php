@@ -7,6 +7,7 @@ use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=FormationRepository::class)
@@ -27,6 +28,7 @@ class Formation
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Assert\LessThanOrEqual("today")
      */
     private $publishedAt;
 
@@ -46,7 +48,7 @@ class Formation
     private $videoId;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Playlist::class, inversedBy="formations")
+     * @ORM\ManyToOne(targetEntity=Playlist::class, inversedBy="formations",cascade={"persist"})
      */
     private $playlist;
 
@@ -59,82 +61,129 @@ class Formation
     {
         $this->categories = new ArrayCollection();
     }
-
+    /**
+     * 
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
-
+    /**
+     * 
+     * @return DateTimeInterface|null
+     */
     public function getPublishedAt(): ?DateTimeInterface
     {
         return $this->publishedAt;
     }
-
+    /**
+     * 
+     * @param DateTimeInterface|null $publishedAt
+     * @return self
+     */
     public function setPublishedAt(?DateTimeInterface $publishedAt): self
     {
         $this->publishedAt = $publishedAt;
 
         return $this;
     }
-    
+    /**
+     * 
+     * @return string
+     */
     public function getPublishedAtString(): string {
         if($this->publishedAt == null){
             return "";
         }
         return $this->publishedAt->format('d/m/Y');     
     }      
-
+    /**
+     * 
+     * @return string|null
+     */
     public function getTitle(): ?string
     {
         return $this->title;
     }
-
+    /**
+     * 
+     * @param string|null $title
+     * @return self
+     */
     public function setTitle(?string $title): self
     {
         $this->title = $title;
 
         return $this;
     }
-
+    /**
+     * 
+     * @return string|null
+     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
-
+    /**
+     * 
+     * @param string|null $description
+     * @return self
+     */
     public function setDescription(?string $description): self
     {
         $this->description = $description;
 
         return $this;
     }
-
+    /**
+     * 
+     * @return string|null
+     */
     public function getMiniature(): ?string
     {
         return self::CHEMINIMAGE.$this->videoId."/default.jpg";
     }
-
+    /**
+     * 
+     * @return string|null
+     */
     public function getPicture(): ?string
     {
         return self::CHEMINIMAGE.$this->videoId."/hqdefault.jpg";
     }
-
+    /**
+     * 
+     * @return string|null
+     */
     public function getVideoId(): ?string
     {
         return $this->videoId;
     }
-
+    /**
+     * 
+     * @param string|null $videoId
+     * @return self
+     */
     public function setVideoId(?string $videoId): self
     {
         $this->videoId = $videoId;
 
         return $this;
     }
-
+    /**
+     * 
+     * @return Playlist|null
+     */
     public function getPlaylist(): ?Playlist
     {
         return $this->playlist;
     }
-
+    /**
+     * 
+     * @param Playlist|null $playlist
+     * @return self
+     */
     public function setPlaylist(?Playlist $playlist): self
     {
         $this->playlist = $playlist;
@@ -149,7 +198,11 @@ class Formation
     {
         return $this->categories;
     }
-
+    /**
+     * 
+     * @param Categorie $category
+     * @return self
+     */
     public function addCategory(Categorie $category): self
     {
         if (!$this->categories->contains($category)) {
@@ -158,7 +211,11 @@ class Formation
 
         return $this;
     }
-
+    /**
+     * 
+     * @param Categorie $category
+     * @return self
+     */
     public function removeCategory(Categorie $category): self
     {
         $this->categories->removeElement($category);

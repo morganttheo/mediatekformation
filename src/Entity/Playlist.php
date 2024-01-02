@@ -50,7 +50,9 @@ class Playlist
     public function __construct()
     {
         $this->formations = new ArrayCollection();
+        $this->nb_formation = 0;
     }
+     
 
     public function getId(): ?int
     {
